@@ -1,0 +1,31 @@
+{
+  "name": "authority",
+  "version": "1.0.0",
+  "description": "- glode name: authority\r - chinese name: 亚佛拉蒂",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon -r esm ./server/index.js",
+    "start": "nodemon -r esm ./server/index.js"
+  },
+  "keywords": [],
+  "author": "PiPeng",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pongcn/authority"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.6.4",
+    "bcryptjs": "^2.4.3",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "graphql": "^14.3.1",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.0",
+    "validator": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
