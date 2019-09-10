@@ -1,18 +1,7 @@
 {
   "name": "adminw_react",
   "version": "0.1.0",
-  "private": true,
-  "author":"PiPeng",
-  "license":"MIT",
-  "homepage": "https://github.com/pongcn/adminw_react",
-  "bugs": {
-    "url": "https://github.com/pongcn/adminw_react",
-    "email": "pongcn@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pongcn/adminw_react"
-  },
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "7.4.3",
     "@svgr/webpack": "4.1.0",

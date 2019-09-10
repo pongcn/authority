@@ -1,14 +1,21 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';/
-import { Table } from 'antd';
+import { Table, Divider, Tag } from 'antd';
 import { HOST_PATH } from '../../config'
 
+const productType = {
+    Wood,
+    Iron,
+    Hybrids,
+    Wedge,
+    Putter,
+  }
+  
 
 export const Ptable = props => {
 
 
     const [state, setState] = React.useState({
-        columns: [],
+        colDatas: [],
         rowDatas: [],
         loading: false,
     })
@@ -48,30 +55,60 @@ export const Ptable = props => {
                 return results;
             })
             .then(data => {
-                 dataFormat(data.data.products)
+
+                formatData(data.data.products)
+
             })
 
     }
 
-    const dataFormat = data => {
-        const colName = Object.keys(data[0])
-        const columns = []
-        const rowDatas = []
-        for (let index = 0; index < colName.length; index++) {
-            let column = {
-                title: colName[index],
-                dataIndex: colName[index],
+    const formatData = data => {
+        const titles = Object.keys(data[0])
+        const colDatas = []
+        for (let i = 0; i < titles.length; i++) {
+            let colData = {
+                title: titles[i].charAt(0).toUpperCase() + titles[i].slice(1),
+                dataIndex: titles[i],
             }
-            columns.push(column);
+            colDatas.push(colData);
         }
-        for (let index = 0; index < data.length; index++) {
-            let rowData = data[index];
-            let key = 'key'
-            rowData[key] = index;
+        colDatas[0].render = text => <a>{text}</a>
+        // colDatas[1].render = tags => (
+        //     <span>
+        //         {tags.map(tag => {
+        //             let color = tag.length > 5 ? 'geekblue' : 'green';
+        //             if (tag === 'loser') {
+        //                 color = 'volcano';
+        //             }
+        //             return (
+        //                 <Tag color={color} key={tag}>
+        //                     {tag.toUpperCase()}
+        //                 </Tag>
+        //             );
+        //         })}
+        //     </span>
+        // )
+        colDatas.push({
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <a>Invite {record.name}</a>
+                    <Divider type="vertical" />
+                    <a>Delete</a>
+                </span>
+            ),
+        })
+        const rowDatas = []
+        const key = 'key'
+        for (let i = 0; i < data.length; i++) {
+            let rowData = data[i];
+            rowData[key] = i;
             rowDatas.push(rowData);
         }
+        console.log(colDatas, rowDatas)
         setState({
-            columns,
+            colDatas,
             rowDatas
         })
     }
@@ -82,7 +119,7 @@ export const Ptable = props => {
 
     return (
         <Table
-            columns={state.columns}
+            columns={state.colDatas}
             dataSource={state.rowDatas}
             loading={state.loading}
         />

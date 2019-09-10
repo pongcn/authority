@@ -16,13 +16,24 @@ type Query {
     name: String
     detail: String
     author_ID: String
-    productType: [Int]
+    productType: [String]
   ):Product
 
   products(
     author_ID: String
-    productType: [Int]
+    productType: [String]
   ):[Product]
+
+  productType(
+    _id: ID
+    name: String
+    detail: String
+    author_ID: String
+  ):ProductType
+
+  productTypes(
+    author_ID: String
+  ):[ProductType]
 
   blog(
     _id:ID
@@ -39,6 +50,7 @@ type Query {
     email:String!
     password:String!
   ):Token
+  
 
 }
 
@@ -68,7 +80,7 @@ type Mutation {
     name: String!
     detail: String
     author_ID: String
-    productType: [Int]
+    productType: [String]
     release: Boolean # default: true , 
   ): Product
 
@@ -78,11 +90,32 @@ type Mutation {
     name: String
     detail: String
     author_ID: String
-    productType: [Int]
+    productType: [String]
     release: Boolean # default: true 
   ): Massage
 
   removeProduct(
+    _id: ID!
+    name: String
+  ): Massage
+
+  addProductType(
+    name: String!
+    detail: String
+    author_ID: String
+    release: Boolean # default: true , 
+  ): ProductType
+
+ 
+  updataProductType(
+    _id: ID!
+    name: String
+    detail: String
+    author_ID: String
+    release: Boolean # default: true 
+  ): Massage
+
+  removeProductType(
     _id: ID!
     name: String
   ): Massage
@@ -167,7 +200,16 @@ type Product {
   name: String!
   detail: String
   author_ID: String
-  productType: [Int]
+  productType: [String]
+  release: Boolean # default: true , 
+  del:Boolean
+}
+
+type ProductType{
+  _id:ID!
+  name: String!
+  detail: String
+  author_ID: String
   release: Boolean # default: true , 
   del:Boolean
 }

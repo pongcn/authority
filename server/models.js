@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const isEmail = require('validator/lib/isEmail')
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
 
 const Schema = mongoose.Schema
 
@@ -35,10 +35,7 @@ const userDetailSchema = new Schema({
 }, { timestamps: true });
 
 const recomSchema = new Schema({
-    url: {
-        type: String,
-        required: true,
-    },
+    url: { type: String, required: true, },
     text: { type: String },
     author_ID: { type: Schema.Types.ObjectId, ref: 'user', },
     release: { type: Boolean, default: true, },
@@ -46,17 +43,22 @@ const recomSchema = new Schema({
 }, { timestamps: true })
 
 const productSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
-    },
+    name: { type: String, required: true, },
     detail: { type: String },
     author_ID: { type: Schema.Types.ObjectId, ref: 'user', },
     // album_ID: [{ type: Schema.Types.ObjectId, ref: 'album', }],
-    productType: [{ type: Number, default: 0 }], //0:wood,1:wood,2:iron,3:wedge,4:putter...
+    productType: [{ type: String }],
     release: { type: Boolean, default: true, },
     del: { type: Boolean, default: false, }
 }, { timestamps: true })
+
+const productTypeSchema = new Schema({
+    name: { type: String, required: true, },
+    detail: { type: String },
+    author_ID: { type: Schema.Types.ObjectId, ref: 'user', },
+    release: { type: Boolean, default: true, },
+    del: { type: Boolean, default: false, }
+})
 
 const blogSchema = new Schema({
     name: { type: String, required: true, },
@@ -92,6 +94,7 @@ module.exports = {
     userDetail: mongoose.model('userDetail', userDetailSchema),
     recom: mongoose.model('recom', recomSchema),
     product: mongoose.model('product', productSchema),
+    productType: mongoose.model('productType', productTypeSchema),
     blog: mongoose.model('blog', blogSchema),
     album: mongoose.model('album', albumSchema),
     media: mongoose.model('media', mediaSchema),

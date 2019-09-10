@@ -4,12 +4,12 @@ import { Pmenu } from './Pmenu'
 import { Ptable } from './Ptable'
 import 'antd/dist/antd.css';
 import './style.css';
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 
 export const PanelPage = props => {
 
-    
+
 
     const [state, setState] = React.useState({ collapsed: false })
 
@@ -50,7 +50,7 @@ export const PanelPage = props => {
                     >
                         <Ptable />
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                    {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
                 </Layout>
             </Layout >
         </>

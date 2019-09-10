@@ -2,12 +2,12 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { user, product, blog } = require('./models')
 
-
 // resolvers
 
 const resolvers = {
 
   Query: {
+
     user: async (parent, args, ctx, info) => {
       let User = await user.findOne(args)
       if (!User) { throw new Error('Invalid user') }
@@ -24,13 +24,22 @@ const resolvers = {
     },
 
     product: async (parent, args, ctx, info) => {
-      let Product = await product.findOne(args)
+        let Product = await product.findOne(args)
       // if (!Product) { throw new Error('product unexist') }
       return Product
     },
     products: async (parent, args, ctx, info) => {
       let Products = await product.find(args)
       return Products
+    },
+    productType: async (parent, args, ctx, info) => {
+      let ProductType = await productType.findOne(args)
+      // if (!Product) { throw new Error('product unexist') }
+      return ProductType
+    },
+    productTypes: async (parent, args, ctx, info) => {
+      let ProductTypes = await productType.find(args)
+      return ProductTypes
     },
     blog: async (parent, args, ctx, info) => {
       let Blog = await blog.findOne(args)
@@ -84,6 +93,10 @@ const resolvers = {
     },
 
     addProduct: async (parent, args, ctx, info) => {
+      // const name = args.productType
+      // console.log(productType.findOne({name}))
+      // args.productType = productType.findOne(name)
+      // args.productType = productType.findOne(args.productType)
       let newProduct = await new product(args)
       let Product = await newProduct.save();
       return Product
@@ -94,6 +107,20 @@ const resolvers = {
     },
     removeProduct: async (parent, args, ctx, info) => {
       await product.findByIdAndRemove(args._id, args)
+      return { type: 1, status: 200, body: 'db removeProduct sucessed' }
+    },
+
+    addProductType: async (parent, args, ctx, info) => {
+      let newProductType = await new productType(args)
+      let ProductType = await newProductType.save();
+      return ProductType
+    },
+    updataProductType: async (parent, args, ctx, info) => {
+      await productType.findByIdAndUpdate(args._id, args)
+      return { type: 1, status: 200, body: 'db updataProductType sucessed' }
+    },
+    removeProductType: async (parent, args, ctx, info) => {
+      await productType.findByIdAndRemove(args._id, args)
       return { type: 1, status: 200, body: 'db removeProduct sucessed' }
     },
 
