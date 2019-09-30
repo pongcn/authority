@@ -48,6 +48,7 @@ const productSchema = new Schema({
     author_ID: { type: Schema.Types.ObjectId, ref: 'user', },
     // album_ID: [{ type: Schema.Types.ObjectId, ref: 'album', }],
     productType: [{ type: String }],
+    status: [{ type: String }], //
     release: { type: Boolean, default: true, },
     del: { type: Boolean, default: false, }
 }, { timestamps: true })

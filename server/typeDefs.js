@@ -17,6 +17,7 @@ type Query {
     detail: String
     author_ID: String
     productType: [String]
+    status:[String]
   ):Product
 
   products(
@@ -81,6 +82,7 @@ type Mutation {
     detail: String
     author_ID: String
     productType: [String]
+    status:[String]
     release: Boolean # default: true , 
   ): Product
 
@@ -91,6 +93,7 @@ type Mutation {
     detail: String
     author_ID: String
     productType: [String]
+    status:[String]
     release: Boolean # default: true 
   ): Massage
 
@@ -201,6 +204,7 @@ type Product {
   detail: String
   author_ID: String
   productType: [String]
+  status: [String]
   release: Boolean # default: true , 
   del:Boolean
 }
