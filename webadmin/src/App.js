@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { HomePage, LoginPage, PanelPage, } from './views';
+import { HomePage, LoginPage, Pmain, } from './views';
 import { AuthProvider } from './store'
 import { logout } from './services'
 
@@ -22,7 +22,7 @@ export const App = props => {
           {/* <Redirect path="/" to={{ pathname: '/login' }} /> */}
           <Route exact path="/home" component={HomePage} />
           <Route path="/login" component={LoginPage} />
-          <Route path="/panel" component={PanelPage} />
+          <Route path="/panel" component={Pmain} />
         </main>
       </Router>
     </AuthProvider >

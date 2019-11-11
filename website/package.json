@@ -1,0 +1,11 @@
+{
+  "name": "authority_dev_website",
+  "version": "1.0.0",
+  "description": "it's frontent for authority website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PengPi",
+  "license": "ISC"
+}

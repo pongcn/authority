@@ -4,8 +4,8 @@
   "description": "- glode name: authority\r - chinese name: 亚佛拉蒂",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon -r esm ./server/index.js",
-    "start": "nodemon -r esm ./server/index.js"
+    "test": "nodemon -r esm ./index.js",
+    "start": "nodemon -r esm ./index.js"
   },
   "keywords": [],
   "author": "PiPeng",

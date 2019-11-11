@@ -68,7 +68,7 @@ const matProduct = async () => {
 }
 
 
-export const Ptable = props => {
+export const Precom = props => {
 
     let [state, setState] = React.useState({
         colDatas: [],
