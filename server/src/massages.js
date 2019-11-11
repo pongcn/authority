@@ -1,4 +1,4 @@
-const massage = [
+export const massage = [
     {
         type: 1,
         status: 200,
@@ -10,4 +10,3 @@ const massage = [
     }
 ]
 
-module.exports = massage

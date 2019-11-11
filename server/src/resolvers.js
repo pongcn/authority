@@ -1,10 +1,11 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const { user, product, blog } = require('./models')
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import models from './models'
 
 // resolvers
+const { user, product, blog } = models
 
-const resolvers = {
+export const resolvers = {
 
   Query: {
 
@@ -24,7 +25,7 @@ const resolvers = {
     },
 
     product: async (parent, args, ctx, info) => {
-        let Product = await product.findOne(args)
+      let Product = await product.findOne(args)
       // if (!Product) { throw new Error('product unexist') }
       return Product
     },
@@ -55,7 +56,7 @@ const resolvers = {
     userAuth: async (parent, args, ctx, info) => {
       let reUser = await user.findOne({ email: args.email })
       if (!reUser) { throw new Error('invalid reUser') }
-      let comPWD = await bcrypt.compareSync(args.password, reUser.password);
+      let comPWD = bcrypt.compareSync(args.password, reUser.password);
       if (!comPWD) { throw new Error('invalid password') }
       let Token = {}
       Token.user = reUser
@@ -143,7 +144,3 @@ const resolvers = {
 
 }
 
-
-
-
-module.exports = resolvers

@@ -1,6 +1,9 @@
-const mongoose = require('mongoose')
-const isEmail = require('validator/lib/isEmail')
+// const mongoose = require('mongoose')
+// const isEmail = require('validator/lib/isEmail')
 // const jwt = require('jsonwebtoken')
+
+import mongoose from 'mongoose'
+import isEmail from 'validator/lib/isEmail'
 
 const Schema = mongoose.Schema
 
@@ -90,7 +93,7 @@ const mediaSchema = new Schema({
 })
 
 
-module.exports = {
+export default {
     user: mongoose.model('user', userSchema),
     userDetail: mongoose.model('userDetail', userDetailSchema),
     recom: mongoose.model('recom', recomSchema),

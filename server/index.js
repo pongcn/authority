@@ -1,13 +1,13 @@
-const app = require('express')()
-const { ApolloServer } = require('apollo-server-express')
-const mongoose = require('mongoose')
-const { DB_PATH, SERVER } = require('./config')
-const resolvers = require('./src/resolvers')
-const typeDefs = require('./src/typeDefs')
-const routers = require('./src/routers')
+import App from 'express'
+import { ApolloServer } from 'apollo-server-express'
+import mongoose from 'mongoose'
+import { DB_PATH, SERVER } from './config'
+import { resolvers, typeDefs } from './src'
+// const resolvers = require('./src/resolvers')
+// const typeDefs = require('./src/typeDefs')
+// const routers = require('./src/routers')
 
-
-
+const app = App()
 
 const gqlserver = new ApolloServer({
   typeDefs,
@@ -26,11 +26,10 @@ app.use((req, res, next) => {
     : next()
 })
 
-app.use('/', routers);
+// app.use('/', routers);
 
 app.listen(SERVER.PORT, () => console.log(`Example app listening on port http://${SERVER.HOST}:${SERVER.PORT}`))
 mongoose.set('useCreateIndex', true);
 mongoose.connect(DB_PATH, { useNewUrlParser: true, useFindAndModify: false }).then(() => {
   console.log("Connected to Database")
 }).catch(err => { throw err });
-

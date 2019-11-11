@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+import { sign } from 'jsonwebtoken'
 
 
 
@@ -18,7 +18,7 @@ const data = {
 
 const testJWT = async (args = data) => {
 
-  let token = await jwt.sign(
+  let token = await sign(
     { password: args.password },
     "defPw*19820808",
     { expiresIn: '1d' },
