@@ -10,10 +10,6 @@
   "keywords": [],
   "author": "PiPeng",
   "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pongcn/authority"
-  },
   "dependencies": {
     "apollo-server-express": "^2.6.4",
     "bcryptjs": "^2.4.3",
