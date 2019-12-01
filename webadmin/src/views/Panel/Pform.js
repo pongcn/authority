@@ -1,60 +1,88 @@
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-
-const NormalLoginForm = props => {
-  
-  handleSubmit = e => {
-    e.preventDefault();
-    props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, NavLink, useRouteMatch, useParams } from 'react-router-dom'
+// import { HOST_PATH } from '../../config'
 
 
-  const { getFieldDecorator } = props.form;
+export const Pform = function () {
+    // console.log(props.match.path)
+    let { url } = useRouteMatch();
+    let { id } = useParams();
 
-  return (
-    <Form onSubmit={handleSubmit} className="login-form">
-      <Form.Item>
-        {getFieldDecorator('username', {
-          rules: [{ required: true, message: 'Please input your username!' }],
-        })(
-          <Input
-            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="Username"
-          />,
-        )}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('password', {
-          rules: [{ required: true, message: 'Please input your Password!' }],
-        })(
-          <Input
-            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type="password"
-            placeholder="Password"
-          />,
-        )}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('remember', {
-          valuePropName: 'checked',
-          initialValue: true,
-        })(<Checkbox>Remember me</Checkbox>)}
-        <a className="login-form-forgot" href="">
-          Forgot password
-          </a>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
-          </Button>
-        Or <a href="">register now!</a>
-      </Form.Item>
-    </Form>
-  );
+    console.log({ id }, { url })
+    return (
+        <>
+                    <h1>it's Pform :</h1>
+                    <p>{url}</p>
+                    <p>{id}</p>
+                    {/* <Route path={`${url}/:id`}><Ptable /></Route> */}
+
+        </>
+    )
 
 }
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
 
-ReactDOM.render(<WrappedNormalLoginForm />, mountNode);
+
+
+
+// const reqList = {
+//   product: {
+//     query: ` 
+//       query { product( _id ) { 
+//         name 
+//         productType 
+//         release 
+//         } 
+//       } 
+//     `
+//   },
+//   products: { query: ` query { products { name productType release } } ` },
+//   blogs: { query: ` query { blogs { name author_ID release } } ` },
+//   users: { query: ` query { users { email } } ` },
+// }
+// // pro_del: { mutation: ` mutation{ removeProduct( _id:${_id} ){ type status body } } ` },
+
+// // const PanelPage = {
+// //     recomment: String, 
+// // }
+
+// // let requestBody = { query: `query { products { name productType release } } ` };
+
+// const fetchHandle = async () => {
+//   // let requestBody = reqList.products
+//   let requestOptions = {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify(reqList.product)
+//   };
+//   let response = await fetch(HOST_PATH.API, requestOptions)
+//   let result = await response.text();
+//   if (!response.ok) {
+//     response.status === 401
+//       ? console.log('401')
+//       : Promise.reject(response.statusText)
+//   }
+//   return result
+// }
+
+
+
+// export const Pform = porps => {
+
+//   const inMain = async () => {
+//     let data = await fetchHandle()
+//     console.log(data)
+//   }
+
+//   React.useEffect(() => {
+//     inMain()
+//   }, [])
+
+//   return (
+//     <>
+//       <h1>it form</h1>
+//     </>
+//   )
+// }
+
+// // ReactDOM.render(<WrappedRegistrationForm />, mountNode);
