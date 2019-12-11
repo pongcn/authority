@@ -1,6 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, NavLink, useRouteMatch, useParams } from 'react-router-dom'
+// import { BrowserRouter as Router, Route, Switch, NavLink, useRouteMatch, useParams } from 'react-router-dom'
+import { useRouteMatch, useParams } from 'react-router-dom'
+
 // import { HOST_PATH } from '../../config'
+
+
+
+const reqBody = {
+    product: { query: ` query { products () { _id name productType release } } ` },
+    addProduct: { query: ` method { products { _id name productType release } } ` },
+}
+query: " query { products { _id name productType release } } "
+
+
+const reqBody2 = [
+    { name: 'product', method: 'POST', body: { "query": "query{\n  product(_id:\"5dec3d436d44d92d1c31df73\"){\n   _id\n   name\n   detail\n  }\n}" } },
+    { name: 'addProduct', method: 'POST', body: { "query": "mutation {\n  addProduct(name: \"d321232vxhj\", detail: \"232312312\", productType: [\"Wood\", \"Iron\"]){\n    _id\n    name\n    author_ID\n  }\n}\n" } },
+    { name: 'blog', method: 'POST', body: '{ query: ` query { products { _id name productType release } } ` }', },
+    { name: 'blog', method: 'POST', body: '{ query: ` query { products { _id name productType release } } ` }', },
+]
+
 
 
 export const Pform = function () {
@@ -8,13 +27,33 @@ export const Pform = function () {
     let { url } = useRouteMatch();
     let { id } = useParams();
 
+
+    const fetchHandle = async () => {
+        let requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reqBody[id])
+        };
+        let response = await fetch(HOST_PATH.API, requestOptions)
+        let result = await response.text();
+        if (!response.ok) {
+            response.status === 401
+                ? console.log('401')
+                : Promise.reject(response.statusText)
+        }
+        console.log(JSON.parse(result).data[id])
+        return JSON.parse(result).data[id]
+    }
+
+
+
     console.log({ id }, { url })
     return (
         <>
-                    <h1>it's Pform :</h1>
-                    <p>{url}</p>
-                    <p>{id}</p>
-                    {/* <Route path={`${url}/:id`}><Ptable /></Route> */}
+            <h1>it's Pform :</h1>
+            <p>{url}</p>
+            <p>{id}</p>
+            {/* <Route path={`${url}/:id`}><Ptable /></Route> */}
 
         </>
     )

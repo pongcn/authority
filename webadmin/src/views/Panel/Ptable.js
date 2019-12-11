@@ -1,74 +1,36 @@
 import React from 'react';
-import { Table, Tag, Divider } from 'antd';
+import { BrowserRouter as Router, Route, Switch, Link, useRouteMatch, useParams } from 'react-router-dom'
+import { Table } from 'antd';
 import { HOST_PATH } from '../../config'
+import { Pform } from '../Panel'
+// import { func } from 'prop-types';
 // import { initialRes, resReducer } from './store'
 
 
 // const productType = {
 //     Wood,
 //     Iron,
-//     Hybrids,
+//     Hybrids,      
 //     Wedge,
 //     Putter,
 //   }
 
-// if api = xxx , else requst xxx 
-// xxx.api= { read, del, add, edite }
-// const readList = {
-//     products: { query: ` query { products { name productType release } } ` },
-//     blogs: { query: ` query { blogs { name author_ID release } } ` },
-//     users: { query: ` query { users { email } } ` },
-// }
-// pro_del: { mutation: ` mutation{ removeProduct( _id:${_id} ){ type status body } } ` },
 
 
-
-// const PanelPage = {
-//     recomment: String, 
-// }
-
-
-const fetchHandle = async () => {
-    let requestBody = { query: `query { products { name productType release } } ` };
-    let requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
-    };
-    let response = await fetch(HOST_PATH.API, requestOptions)
-    let result = await response.text();
-    if (!response.ok) {
-        response.status === 401
-            ? console.log('401')
-            : Promise.reject(response.statusText)
-    }
-    return result
+const reqBody = {
+    products: { query: ` query { products { _id name productType release } } ` },
+    blogs: { query: ` query { blogs { _id name release } } ` },
+    users: { query: ` query { users { _id email } } ` },
+    a:{"query":"{\n  products {\n    _id\n    name\n    productType\n    release\n  }\n}\n"}
 }
 
-const matProduct = async () => {
-    let Data = JSON.parse(await fetchHandle()).data.products
-    let titles = Object.keys(Data[0])
-    let colDatas = []
-    let rowDatas = []
-    for (let index in titles) {
-        let colData = {
-            title: titles[index].charAt(0).toUpperCase() + titles[index].slice(1),
-            dataIndex: titles[index],
-        }
-        colDatas.push(colData);
-    }
-    for (let index in Data) {
-        let rowData = Data[index];
-        rowData.key = index
-        rowData.release = rowData.release.toString()
-        rowDatas.push(rowData);
-    }
+// {"query":" query { products { _id name productType release } } "}
 
-    return { colDatas, rowDatas }
-}
+export const Ptable = function () {
 
-
-export const Ptable = props => {
+    let { url } = useRouteMatch();
+    let { id } = useParams();
+    console.log(url)
 
     let [state, setState] = React.useState({
         colDatas: [],
@@ -76,54 +38,86 @@ export const Ptable = props => {
         loading: true,
     })
 
+    // const getId = function () {
+    //     console.log('here it is ', Object.keys(this))
+    // }
+    // getId.call(reqBody)
+    console.log(JSON.stringify(reqBody[id]))
 
-    const inTable = async () => {
-
-        let { colDatas, rowDatas } = await matProduct();
-
-        const colHandle = () => {
-            colDatas[0].render = text => <a>{text}</a>
-            colDatas[1].render = tags => (
-                <span>
-                    {tags.map(tag => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        return (<Tag color={color} key={tag}>{tag}</Tag>);
-                    })}
-                </span>
-            )
-            colDatas.push({
-                title: 'Action',
-                key: 'action',
-                render: (text, record) => (
-                    <span>
-                        <a>Invite {record.name}</a>
-                        <Divider type="vertical" />
-                        <a>Delete</a>
-                    </span>
-                ),
-            })
-            return colDatas
+    const fetchHandle = async () => {
+        let requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reqBody[id])
+        };
+        let response = await fetch(HOST_PATH.API, requestOptions)
+        let result = await response.text();
+        if (!response.ok) {
+            response.status === 401
+                ? console.log('401')
+                : Promise.reject(response.statusText)
         }
-
-        setState({
-            colDatas: colHandle(),
-            rowDatas: rowDatas,
-            loading: false,
-        })
+        console.log(JSON.parse(result).data[id])
+        return JSON.parse(result).data[id]
     }
 
+    const forTable = async () => {
+        let Data = await fetchHandle()
+        let titles = Object.keys(Data[0])
+        let colDatas = []
+        let rowDatas = []
+        console.log(titles)
+        for (let i in titles) {
+            let colData = {
+                title: titles[i].charAt(0).toUpperCase() + titles[i].slice(1),
+                dataIndex: titles[i],
+            }
+            colDatas.push(colData);
+        }
+        for (let i in Data) {
+            let rowData = Data[i];
+            rowData.key = i
+            // rowData.release = rowData.release.toString()
+            rowDatas.push(rowData);
+        }
+        return { colDatas, rowDatas }
+    }
+
+    const inTable = async () => {
+        let { colDatas, rowDatas } = await forTable();
+        colDatas[0].render = text => <a>{text}</a>
+        colDatas.push({
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <Link to={`${url}/form@=${record._id}`}  >{record.name}</Link>
+                </span>
+            ),
+        })
+        return { colDatas, rowDatas }
+    }
+
+
     React.useEffect(() => {
-        inTable()
-    }, [])
+        inTable().then(({ colDatas, rowDatas }) => setState({
+            colDatas: colDatas,
+            rowDatas: rowDatas,
+            loading: false,
+        }))
+    }, [id])
 
     return (
-        <>
+        <Router>
             <Table
                 columns={state.colDatas}
                 dataSource={state.rowDatas}
                 loading={state.loading}
             />
-        </>
+            <Switch>
+                <Route path={`${url}/form@=:id`}><Pform /></Route>
+            </Switch>
+        </Router>
     )
 
 }
